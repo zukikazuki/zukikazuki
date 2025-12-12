@@ -26,8 +26,7 @@ jobs:
           filename: github-metrics.svg
           template: classic
           base: header, activity, community, repositories, metadata
-          plugin_activity: yes
-          plugin_activity_visibility: all
-          plugin_activity_days: 365
-          # Lower limit to reduce API usage and avoid hitting Search API quotas.
-          plugin_activity_limit: 200
+          # NOTE: plugin_activity (recent events feed) is intentionally disabled because it often
+          # hits API limits and renders "Unexpected error" in the SVG. The base "activity" section
+          # still shows commits/PRs/issues counts.
+          plugin_activity: no
