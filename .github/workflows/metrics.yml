@@ -1,6 +1,12 @@
 name: Metrics
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    # Avoid infinite loops: metrics action commits github-metrics.svg
+    paths-ignore:
+      - github-metrics.svg
   schedule:
     - cron: "0 0 * * *"  
 
