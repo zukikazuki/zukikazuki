@@ -1,0 +1,23 @@
+name: Metrics
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"  # 毎日 00:00 UTC（不要なら消してOK）
+
+permissions:
+  contents: write
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate metrics
+        uses: lowlighter/metrics@latest
+        with:
+          user: <YOUR_GITHUB_USERNAME>
+          token: ${{ secrets.GITHUB_TOKEN }}
+          filename: github-metrics.svg
+
+          # 好みでいじる（まずは最低限でOK）
+          template: classic
+          base: header, activity, community, repositories, metadata
