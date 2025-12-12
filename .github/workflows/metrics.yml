@@ -20,11 +20,14 @@ jobs:
         uses: lowlighter/metrics@latest
         with:
           user: zukikazuki
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Prefer a Personal Access Token (PAT) for accessing private/contributed repositories.
+          # Fallback to GITHUB_TOKEN if METRICS_TOKEN is not set.
+          token: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
           filename: github-metrics.svg
           template: classic
           base: header, activity, community, repositories, metadata
           plugin_activity: yes
           plugin_activity_visibility: all
           plugin_activity_days: 365
-          plugin_activity_limit: 1000
+          # Lower limit to reduce API usage and avoid hitting Search API quotas.
+          plugin_activity_limit: 200
