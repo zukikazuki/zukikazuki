@@ -11,13 +11,28 @@ jobs:
   github-metrics:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
       - name: Generate metrics
         uses: lowlighter/metrics@latest
         with:
           user: zukikazuki
           token: ${{ secrets.GITHUB_TOKEN }}
           filename: github-metrics.svg
-
-
           template: classic
           base: header, activity, community, repositories, metadata
+          plugin_activity: yes
+          plugin_activity_visibility: all
+          plugin_activity_days: 365
+          plugin_activity_limit: 1000
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add github-metrics.svg
+          git diff --staged --quiet || git commit -m "Update metrics [skip ci]"
+          git push
